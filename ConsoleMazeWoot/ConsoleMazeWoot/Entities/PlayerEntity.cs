@@ -38,9 +38,9 @@ namespace ConsoleMazeWoot
 				Program.Lose();
 			}
 
-			Program.WriteString("TIME " + String.Format("{0}", span.Minutes) + ":" + String.Format("{00}", span.Seconds), new Vector(0, 33), Program.CurrentScene);
-			Program.WriteString("SCORE " + String.Format("{0000}", Program.Score), new Vector(13,33), Program.CurrentScene);
-			Program.WriteString("LEVEL " + String.Format("{00}", Program.Level), new Vector(26, 33), Program.CurrentScene);
+			Program.WriteString("T " + String.Format("{0}", span.Minutes) + ":" + String.Format("{00}", span.Seconds), new Vector(0, 33), Program.CurrentScene);
+			Program.WriteString("PTS " + String.Format("{0000}", Program.Score), new Vector(8,33), Program.CurrentScene);
+			Program.WriteString("LVL " + String.Format("{00}", Program.Level), new Vector(19, 33), Program.CurrentScene);
 		}
 	}
 }

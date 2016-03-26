@@ -120,15 +120,10 @@ namespace ConsoleMazeWoot
 			//Add the bottom right corner
 			CurrentScene.Terrain.Add(new WallEntity(true), new Vector(32, 32));
 
+			Random R = new Random();
 			for (int i = 0; i < 3; i++)
 			{
-				Random R = new Random();
-				int randomTrophyPointX = R.Next(15);
-				randomTrophyPointX = randomTrophyPointX * 2 + 1;
-				int randomTrophyPointY = R.Next(15);
-				randomTrophyPointY = randomTrophyPointY * 2 + 1;
-
-				CurrentScene.Terrain.Add(new TrophyEntity(20), new Vector(randomTrophyPointX, randomTrophyPointY));
+				CurrentScene.Terrain.Add(new TrophyEntity(20), new Vector((R.Next(15) * 2) + 1, (R.Next(15) * 2) + 1));
 			}
 
 			//Adding player
