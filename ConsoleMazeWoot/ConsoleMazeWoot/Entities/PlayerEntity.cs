@@ -5,17 +5,11 @@ namespace ConsoleMazeWoot
 {
 	class PlayerEntity : Entity
 	{
-		public int Score { get; set; }
-
-		public int Level { get; set; }
 
 		public PlayerEntity()
 		{
 			Display = 'O';
 			OnUpdate += PlayerEntity_OnUpdate;
-
-			Score = 0;
-			Level = 0;
 		}
 
 		private void PlayerEntity_OnUpdate(UpdateEventArgs e)
@@ -39,8 +33,15 @@ namespace ConsoleMazeWoot
 					break;
 			}
 
-			Program.WriteString("SCORE " + String.Format("{0000}", Score), new Vector(12,33), Program.CurrentScene);
-			Program.WriteString("LEVEL " + String.Format("{00}", Level), new Vector(25, 33), Program.CurrentScene);
+			var span = DateTime.Now.Subtract(Program.StartTime);
+			if (DateTime.Now.Subtract(Program.StartTime) > TimeSpan.FromMinutes(1))
+			{
+				Program.Lose();
+			}
+
+			Program.WriteString("TIME " + String.Format("{0}", span.Minutes) + ":" + String.Format("{00}", span.Seconds), new Vector(0, 33), Program.CurrentScene);
+			Program.WriteString("SCORE " + String.Format("{0000}", Program.Score), new Vector(12,33), Program.CurrentScene);
+			Program.WriteString("LEVEL " + String.Format("{00}", Program.Level), new Vector(25, 33), Program.CurrentScene);
 		}
 	}
 }

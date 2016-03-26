@@ -24,7 +24,7 @@ namespace ConsoleMazeWoot
         private void TrophyEntity_OnCollideWith(object sender, CollisionEventArgs e)
         {
             //update player score to be current player score + value of given trophy
-            (e.Caller as PlayerEntity).Score += value;
+            Program.Score += value;
 
 			ParentScene.Terrain.Remove(this);
         }

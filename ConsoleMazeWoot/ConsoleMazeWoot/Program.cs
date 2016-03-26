@@ -29,10 +29,16 @@ namespace ConsoleMazeWoot
 		/// </summary>
 		public static Scene CurrentScene { get; private set; }
 
-        //creates new scene which holds all properties of old scene along with 
-        //string A which is displayed beginnning at Vector (x,y) each char in string A
-        //becomes an entity which is then placed in x, x+1 , x+2 , ... x+A.length()...
-        public static void WriteString(string toWrite, Vector location, Scene toWriteOn)
+		public static int Score = 0;
+
+		public static int Level = 0;
+
+		public static DateTime StartTime { get; set; }
+
+		//creates new scene which holds all properties of old scene along with 
+		//string A which is displayed beginnning at Vector (x,y) each char in string A
+		//becomes an entity which is then placed in x, x+1 , x+2 , ... x+A.length()...
+		public static void WriteString(string toWrite, Vector location, Scene toWriteOn)
         {
             var charArrayString= toWrite.ToCharArray();
             //now I have my scene....time to edit it by inserting my string
@@ -77,11 +83,11 @@ namespace ConsoleMazeWoot
 					var mod_y = y * 2;
 
 					//Add a corner wall
-					CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x, mod_y));
+					CurrentScene.Terrain.Add(new WallEntity(true), new Vector(mod_x, mod_y));
 					var pindex = (y * Size) + x;
 
 					//Add walls on the top and left
-					if (!graph[pindex, up].deleted) CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x + 1, mod_y));
+					if (!graph[pindex, up].deleted) CurrentScene.Terrain.Add(new WallEntity(true), new Vector(mod_x + 1, mod_y));
 					if (!graph[pindex, left].deleted)
 					{
 						//If we're at the starting point, make the wallentity a startentity instead
@@ -90,7 +96,7 @@ namespace ConsoleMazeWoot
 							if (playerPos == "top") CurrentScene.Terrain.Add(new StartEntity(), new Vector(mod_x, mod_y + 1));
 							else CurrentScene.Terrain.Add(new EndEntity('<'), new Vector(mod_x, mod_y + 1));
 						}
-						else CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x, mod_y + 1));
+						else CurrentScene.Terrain.Add(new WallEntity(true), new Vector(mod_x, mod_y + 1));
 					}
 				}
 			}
@@ -98,13 +104,13 @@ namespace ConsoleMazeWoot
 			//Add the bottom walls
 			for (int x = 0; x < 32; x++)
 			{
-				CurrentScene.Terrain.Add(new WallEntity(), new Vector(x, 32));
+				CurrentScene.Terrain.Add(new WallEntity(true), new Vector(x, 32));
 			}
 
 			//add the right walls
 			for (int y = 0; y < 31; y++)
 			{
-				CurrentScene.Terrain.Add(new WallEntity(), new Vector(32, y));
+				CurrentScene.Terrain.Add(new WallEntity(true), new Vector(32, y));
 			}
 
 			//Add end/start
@@ -112,16 +118,29 @@ namespace ConsoleMazeWoot
 			else CurrentScene.Terrain.Add(new StartEntity('<'), new Vector(32, 31));
 
 			//Add the bottom right corner
-			CurrentScene.Terrain.Add(new WallEntity(), new Vector(32, 32));
+			CurrentScene.Terrain.Add(new WallEntity(true), new Vector(32, 32));
+
+			//to insert trophies
+			CurrentScene.Terrain.Add(new TrophyEntity(20), new Vector(3, 3));
 
 			//Adding player
 			CurrentScene.Terrain.Add(player, player.Position);
-
-            //to insert trophies
-            CurrentScene.Terrain.Add(new TrophyEntity(20), new Vector(3, 3));
+			StartTime = DateTime.Now;
 		}
 
+		public static void Lose()
+		{
+			CurrentScene = new Scene(
+				"NewScene",
+				new DictionaryTerrainManager(' ', new Vector(32, 33)),
+				new Camera(new Vector(0, 0), new Vector(32, 33)));
 
+			WriteString("You lose.", new Vector(1, 1), CurrentScene);
+			//WriteString("Score: " + Score, new Vector(1, 2), CurrentScene);
+			//WriteString("Level: " + Level, new Vector(1, 3), CurrentScene);
+
+			GameLoop.NavigateScene(CurrentScene);
+		}
 
 		#region MazeGen
 
