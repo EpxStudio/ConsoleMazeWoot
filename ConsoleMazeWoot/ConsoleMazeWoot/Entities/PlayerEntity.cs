@@ -5,7 +5,6 @@ namespace ConsoleMazeWoot
 {
 	class PlayerEntity : Entity
 	{
-
 		public PlayerEntity()
 		{
 			Display = 'O';
@@ -40,8 +39,8 @@ namespace ConsoleMazeWoot
 			}
 
 			Program.WriteString("TIME " + String.Format("{0}", span.Minutes) + ":" + String.Format("{00}", span.Seconds), new Vector(0, 33), Program.CurrentScene);
-			Program.WriteString("SCORE " + String.Format("{0000}", Program.Score), new Vector(12,33), Program.CurrentScene);
-			Program.WriteString("LEVEL " + String.Format("{00}", Program.Level), new Vector(25, 33), Program.CurrentScene);
+			Program.WriteString("SCORE " + String.Format("{0000}", Program.Score), new Vector(13,33), Program.CurrentScene);
+			Program.WriteString("LEVEL " + String.Format("{00}", Program.Level), new Vector(26, 33), Program.CurrentScene);
 		}
 	}
 }

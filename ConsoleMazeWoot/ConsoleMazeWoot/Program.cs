@@ -20,9 +20,9 @@ namespace ConsoleMazeWoot
 			//First create a new scene
 			GenerateNewScene(player);
 
-            //Start the game!
-            GameLoop.Begin(CurrentScene);
-        }
+			//Start the game!
+			GameLoop.Begin(CurrentScene);
+		}
 
 		/// <summary>
 		/// The current scene the player is sitting in
@@ -39,21 +39,21 @@ namespace ConsoleMazeWoot
 		//string A which is displayed beginnning at Vector (x,y) each char in string A
 		//becomes an entity which is then placed in x, x+1 , x+2 , ... x+A.length()...
 		public static void WriteString(string toWrite, Vector location, Scene toWriteOn)
-        {
-            var charArrayString= toWrite.ToCharArray();
-            //now I have my scene....time to edit it by inserting my string
+		{
+			var charArrayString = toWrite.ToCharArray();
+			//now I have my scene....time to edit it by inserting my string
 
-            int indexer = location.X;
-            foreach (var C in charArrayString)
-            {
-                //create an indexer to move
-                //Modify scene to return so that at location(X+x,Y)
-                toWriteOn.Terrain.Add(new CharEntity(C), new Vector(indexer, location.Y));
-                indexer++;
-            }
-        }
+			int indexer = location.X;
+			foreach (var C in charArrayString)
+			{
+				//create an indexer to move
+				//Modify scene to return so that at location(X+x,Y)
+				toWriteOn.Terrain.Add(new CharEntity(C), new Vector(indexer, location.Y));
+				indexer++;
+			}
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Makes a new scene with a new maze
 		/// </summary>
 		public static void GenerateNewScene(PlayerEntity player)
@@ -120,8 +120,16 @@ namespace ConsoleMazeWoot
 			//Add the bottom right corner
 			CurrentScene.Terrain.Add(new WallEntity(true), new Vector(32, 32));
 
-			//to insert trophies
-			CurrentScene.Terrain.Add(new TrophyEntity(20), new Vector(3, 3));
+			for (int i = 0; i < 3; i++)
+			{
+				Random R = new Random();
+				int randomTrophyPointX = R.Next(15);
+				randomTrophyPointX = randomTrophyPointX * 2 + 1;
+				int randomTrophyPointY = R.Next(15);
+				randomTrophyPointY = randomTrophyPointY * 2 + 1;
+
+				CurrentScene.Terrain.Add(new TrophyEntity(20), new Vector(randomTrophyPointX, randomTrophyPointY));
+			}
 
 			//Adding player
 			CurrentScene.Terrain.Add(player, player.Position);

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trilobyte;
 
 namespace ConsoleMazeWoot
@@ -14,7 +10,6 @@ namespace ConsoleMazeWoot
         //trophies may have different values and so Y will be value of given trophy
         public TrophyEntity(int val, char toDisplay = '+')
         {
-
             value = val;
             Display = toDisplay;
 
