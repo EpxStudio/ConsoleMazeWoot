@@ -19,16 +19,45 @@ namespace ConsoleMazeWoot
 		{
 			CurrentScene = new Scene(
 				"NewScene",
-				new DictionaryTerrainManager(' ', new Vector(33, 33)),
-				new Camera(new Vector(0, 0), new Vector(33, 33)));
+				new DictionaryTerrainManager(' ', new Vector(32, 32)),
+				new Camera(new Vector(0, 0), new Vector(32, 32)));
 
-			for (int x = 0; x <= 16; x += 2)
+			CreateGraph();
+			CreateMaze();
+
+			for (int x = 0; x < 16; x += 1)
 			{
-				for (int y = 0; y <= 16; y += 2)
+				for (int y = 0; y < 16; y += 1)
 				{
+					var mod_x = x * 2;
+					var mod_y = y * 2;
 
+					CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x, mod_y));
+					var pindex = (y * Size) + x;
+
+					var _up = graph[pindex, up];
+
+					if (!_up.deleted) CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x + 1, mod_y));
+					if (!graph[pindex, left].deleted)
+					{
+						if (mod_x == 0 && mod_y == 0) CurrentScene.Terrain.Add(new StartEntity(), new Vector(mod_x, mod_y + 1));
+						else CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x, mod_y + 1));
+					}
 				}
 			}
+
+			for (int x = 0; x < 32; x++)
+			{
+				CurrentScene.Terrain.Add(new WallEntity(), new Vector(x, 32));
+			}
+
+			for (int y = 0; y < 31; y++)
+			{
+				CurrentScene.Terrain.Add(new WallEntity(), new Vector(32, y));
+			}
+
+			CurrentScene.Terrain.Add(new EndEntity(), new Vector(32, 31));
+			CurrentScene.Terrain.Add(new WallEntity(), new Vector(32, 32));
 		}
 
 		#region MazeGen
@@ -53,8 +82,8 @@ namespace ConsoleMazeWoot
 			{
 				for (int j = 0; j < Size; ++j)
 				{
-					Point p = new Point(i, j);
-					int pindex = i * Size + j;
+					var p = new Point(i, j);
+					var pindex = i * Size + j;
 					p.index = pindex;
 
 					board[i, j] = p;
@@ -95,20 +124,20 @@ namespace ConsoleMazeWoot
 
 		static void CreateMaze()
 		{
-			List<Point> pointsList = new List<Point>();
+			var pointsList = new List<Point>();
 
 			board[0, 0].visited = true;
 			pointsList.Add(board[0, 0]);
 
 			randomGenerator = new Random();
-			int randomDir = 0;
+			var randomDir = 0;
 			Point nextPoint = null, randomPoint;
 
 			while (GetUnvisitedPoints() > 0)
 			{
 				randomPoint = pointsList[randomGenerator.Next(pointsList.Count)];
 
-				int loopCount = 0;
+				var loopCount = 0;
 				do
 				{
 					loopCount++;
