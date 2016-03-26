@@ -6,61 +6,88 @@ namespace ConsoleMazeWoot
 {
 	class Program
 	{
+		/// <summary>
+		/// starting point
+		/// </summary>
+		/// <param name="args"></param>
 		static void Main(string[] args)
 		{
+			//First create a new scene
 			GenerateNewScene();
+
+			//Add the player to the scene at 1,1
 			CurrentScene.Terrain.Add(new PlayerEntity(), new Vector(1, 1));
+
+			//Start the game!
 			GameLoop.Begin(CurrentScene);
 		}
 
+		/// <summary>
+		/// The current scene the player is sitting in
+		/// </summary>
 		public static Scene CurrentScene { get; private set; }
 
+		/// <summary>
+		/// Makes a new scene with a new maze
+		/// </summary>
 		public static void GenerateNewScene()
 		{
+			//Create a new, blank scene of size 32,32
 			CurrentScene = new Scene(
 				"NewScene",
 				new DictionaryTerrainManager(' ', new Vector(32, 32)),
 				new Camera(new Vector(0, 0), new Vector(32, 32)));
 
+			//Create the graph for maze generation
 			CreateGraph();
+			//Generate the maze
 			CreateMaze();
 
+			//loop through the graph
 			for (int x = 0; x < 16; x += 1)
 			{
 				for (int y = 0; y < 16; y += 1)
 				{
+
 					var mod_x = x * 2;
 					var mod_y = y * 2;
 
+					//Add a corner wall
 					CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x, mod_y));
 					var pindex = (y * Size) + x;
 
-					var _up = graph[pindex, up];
-
-					if (!_up.deleted) CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x + 1, mod_y));
+					//Add walls on the top and left
+					if (!graph[pindex, up].deleted) CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x + 1, mod_y));
 					if (!graph[pindex, left].deleted)
 					{
+						//If we're at the starting point, make the wallentity a startentity instead
 						if (mod_x == 0 && mod_y == 0) CurrentScene.Terrain.Add(new StartEntity(), new Vector(mod_x, mod_y + 1));
 						else CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x, mod_y + 1));
 					}
 				}
 			}
 
+			//Add the bottom walls
 			for (int x = 0; x < 32; x++)
 			{
 				CurrentScene.Terrain.Add(new WallEntity(), new Vector(x, 32));
 			}
 
+			//add the right walls
 			for (int y = 0; y < 31; y++)
 			{
 				CurrentScene.Terrain.Add(new WallEntity(), new Vector(32, y));
 			}
 
+			//add the end entity
 			CurrentScene.Terrain.Add(new EndEntity(), new Vector(32, 31));
+			//Add the bottom right corner
 			CurrentScene.Terrain.Add(new WallEntity(), new Vector(32, 32));
 		}
 
 		#region MazeGen
+
+		//This is all the code from Hantao's class
 
 		const int right = 0;
 		const int down = 1;
@@ -169,6 +196,9 @@ namespace ConsoleMazeWoot
 		#endregion
 	}
 
+	/// <summary>
+	/// Point class from hantao
+	/// </summary>
 	class Point
 	{
 		// a Point is a position in the maze
@@ -185,6 +215,9 @@ namespace ConsoleMazeWoot
 		}
 	}
 
+	/// <summary>
+	/// Edge class from hantao
+	/// </summary>
 	class Edge
 	{
 		// an Edge is a link between two Points: 
