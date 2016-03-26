@@ -12,16 +12,16 @@ namespace ConsoleMazeWoot
 		/// <param name="args"></param>
 		static void Main(string[] args)
 		{
-            //First create a new scene
-            GenerateNewScene();
+			//create the player
+			var player = new PlayerEntity();
+			//Set player's initial position
+			player.Position = new Vector(1, 1);
 
-            //Add the player to the scene at 1,1
-            CurrentScene.Terrain.Add(new PlayerEntity(), new Vector(1, 1));
+			//First create a new scene
+			GenerateNewScene(player);
 
             //Start the game!
             GameLoop.Begin(CurrentScene);
-
-
         }
 
 		/// <summary>
@@ -56,13 +56,18 @@ namespace ConsoleMazeWoot
         /// <summary>
 		/// Makes a new scene with a new maze
 		/// </summary>
-		public static void GenerateNewScene()
+		public static void GenerateNewScene(PlayerEntity player)
 		{
 			//Create a new, blank scene of size 32,32
 			CurrentScene = new Scene(
 				"NewScene",
 				new DictionaryTerrainManager(' ', new Vector(32, 32)),
 				new Camera(new Vector(0, 0), new Vector(32, 32)));
+
+			//Check where the player is
+			var playerPos = "";
+			if (player.Position.X == 1 && player.Position.Y == 1) playerPos = "top";
+			else playerPos = "bottom";
 
 			//Create the graph for maze generation
 			CreateGraph();
@@ -74,7 +79,6 @@ namespace ConsoleMazeWoot
 			{
 				for (int y = 0; y < 16; y += 1)
 				{
-
 					var mod_x = x * 2;
 					var mod_y = y * 2;
 
@@ -87,7 +91,11 @@ namespace ConsoleMazeWoot
 					if (!graph[pindex, left].deleted)
 					{
 						//If we're at the starting point, make the wallentity a startentity instead
-						if (mod_x == 0 && mod_y == 0) CurrentScene.Terrain.Add(new StartEntity(), new Vector(mod_x, mod_y + 1));
+						if (mod_x == 0 && mod_y == 0)
+						{
+							if (playerPos == "top") CurrentScene.Terrain.Add(new StartEntity(), new Vector(mod_x, mod_y + 1));
+							else CurrentScene.Terrain.Add(new EndEntity('<'), new Vector(mod_x, mod_y + 1));
+						}
 						else CurrentScene.Terrain.Add(new WallEntity(), new Vector(mod_x, mod_y + 1));
 					}
 				}
@@ -105,10 +113,15 @@ namespace ConsoleMazeWoot
 				CurrentScene.Terrain.Add(new WallEntity(), new Vector(32, y));
 			}
 
-			//add the end entity
-			CurrentScene.Terrain.Add(new EndEntity(), new Vector(32, 31));
+			//Add end/start
+			if (playerPos == "top") CurrentScene.Terrain.Add(new EndEntity(), new Vector(32, 31));
+			else CurrentScene.Terrain.Add(new StartEntity('<'), new Vector(32, 31));
+
 			//Add the bottom right corner
 			CurrentScene.Terrain.Add(new WallEntity(), new Vector(32, 32));
+
+			//Adding player
+			CurrentScene.Terrain.Add(player, player.Position);
 		}
 
 		#region MazeGen

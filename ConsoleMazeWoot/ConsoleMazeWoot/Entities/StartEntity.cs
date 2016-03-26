@@ -5,9 +5,9 @@ namespace ConsoleMazeWoot
 {
 	class StartEntity : Entity
 	{
-		public StartEntity()
+		public StartEntity(char toDisplay = '>')
 		{
-			Display = '>';
+			Display = toDisplay;
 
 			OnCollidedWith += StartEntity_OnCollidedWith;
 		}
