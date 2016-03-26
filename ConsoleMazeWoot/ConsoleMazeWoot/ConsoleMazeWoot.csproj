@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\CharEntity.cs" />
     <Compile Include="Entities\EndEntity.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
     <Compile Include="Entities\StartEntity.cs" />
