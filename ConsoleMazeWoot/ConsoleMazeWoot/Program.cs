@@ -12,22 +12,48 @@ namespace ConsoleMazeWoot
 		/// <param name="args"></param>
 		static void Main(string[] args)
 		{
-			//First create a new scene
-			GenerateNewScene();
+            //First create a new scene
+            GenerateNewScene();
 
-			//Add the player to the scene at 1,1
-			CurrentScene.Terrain.Add(new PlayerEntity(), new Vector(1, 1));
+            //Add the player to the scene at 1,1
+            CurrentScene.Terrain.Add(new PlayerEntity(), new Vector(1, 1));
 
-			//Start the game!
-			GameLoop.Begin(CurrentScene);
-		}
+            //Start the game!
+            GameLoop.Begin(CurrentScene);
+
+
+        }
 
 		/// <summary>
 		/// The current scene the player is sitting in
 		/// </summary>
 		public static Scene CurrentScene { get; private set; }
 
-		/// <summary>
+        //creates new scene which holds all properties of old scene along with 
+        //string A which is displayed beginnning at Vector (x,y) each char in string A
+        //becomes an entity which is then placed in x, x+1 , x+2 , ... x+A.length()...
+        public static Scene writeString(string A, Vector location)
+        {
+            //Create a new, blank scene of size 32, 32 which will have string A inserted into it
+            var SceneToReturn = new Scene("StringScene",
+                new DictionaryTerrainManager(' ', new Vector(32, 32)),
+                new Camera(new Vector(0, 0), new Vector(32, 32)));
+            var charArrayString= A.ToCharArray();
+            //now I have my scene....time to edit it by inserting my string
+            int indexer = location.X;
+            foreach (var C in charArrayString)
+            {
+                //create an indexer to move
+                //Modify scene to return so that at location(X+x,Y)
+                SceneToReturn.Terrain.Add(new CharEntity(C), new Vector(indexer, location.Y));
+                indexer++;
+            }
+            
+
+            return SceneToReturn;
+
+        }    
+        /// <summary>
 		/// Makes a new scene with a new maze
 		/// </summary>
 		public static void GenerateNewScene()

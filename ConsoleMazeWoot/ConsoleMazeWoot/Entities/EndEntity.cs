@@ -3,6 +3,7 @@ using Trilobyte;
 
 namespace ConsoleMazeWoot
 {
+    
 	class EndEntity : Entity
 	{
 		public EndEntity()
