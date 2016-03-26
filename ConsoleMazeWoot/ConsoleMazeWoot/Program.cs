@@ -55,8 +55,8 @@ namespace ConsoleMazeWoot
 			//Create a new, blank scene of size 32,32
 			CurrentScene = new Scene(
 				"NewScene",
-				new DictionaryTerrainManager(' ', new Vector(32, 32)),
-				new Camera(new Vector(0, 0), new Vector(32, 32)));
+				new DictionaryTerrainManager(' ', new Vector(32, 33)),
+				new Camera(new Vector(0, 0), new Vector(32, 33)));
 
 			//Check where the player is
 			var playerPos = "";

@@ -38,6 +38,9 @@ namespace ConsoleMazeWoot
 					ParentScene.Terrain.Move(this, new Vector(Position.X + 1, Position.Y));
 					break;
 			}
+
+			Program.WriteString("SCORE " + String.Format("{0000}", Score), new Vector(12,33), Program.CurrentScene);
+			Program.WriteString("LEVEL " + String.Format("{00}", Level), new Vector(25, 33), Program.CurrentScene);
 		}
 	}
 }
