@@ -5,10 +5,17 @@ namespace ConsoleMazeWoot
 {
 	class PlayerEntity : Entity
 	{
+		public int Score { get; set; }
+
+		public int Level { get; set; }
+
 		public PlayerEntity()
 		{
 			Display = 'O';
 			OnUpdate += PlayerEntity_OnUpdate;
+
+			Score = 0;
+			Level = 0;
 		}
 
 		private void PlayerEntity_OnUpdate(UpdateEventArgs e)
