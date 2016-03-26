@@ -30,17 +30,6 @@ namespace ConsoleMazeWoot
 				case ConsoleKey.D:
 					ParentScene.Terrain.Move(this, new Vector(Position.X + 1, Position.Y));
 					break;
-
-				case ConsoleKey.E:
-					if (MainPlayer.Inventory.Count == 0) break;
-
-					foreach (var i in MainPlayer.Inventory)
-					{
-						ParentScene.Terrain.Add(i, new Vector(Position.X + 1, Position.Y));
-					}
-
-					MainPlayer.Inventory.Clear();
-					break;
 			}
 		}
 	}
