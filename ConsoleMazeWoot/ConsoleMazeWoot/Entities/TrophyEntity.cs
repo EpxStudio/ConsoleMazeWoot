@@ -20,8 +20,13 @@ namespace ConsoleMazeWoot
         {
             //update player score to be current player score + value of given trophy
             Program.Score += value;
+            try {
+                ParentScene.Terrain.Remove(this);
+            }
+            catch(Exception ex)
+            {
 
-			ParentScene.Terrain.Remove(this);
+            }
         }
     }
 }
