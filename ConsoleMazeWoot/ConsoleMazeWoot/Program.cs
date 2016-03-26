@@ -33,6 +33,8 @@ namespace ConsoleMazeWoot
 
 		public static int Level = 0;
 
+		public static int Health = 5;
+
 		public static DateTime StartTime { get; set; }
 
 		//creates new scene which holds all properties of old scene along with 
