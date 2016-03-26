@@ -26,8 +26,7 @@ namespace ConsoleMazeWoot
             //update player score to be current player score + value of given trophy
             (e.Caller as PlayerEntity).Score += value;
 
-
-            Program.WriteString("Hi", new Vector(0,33), Program.CurrentScene);
+			ParentScene.Terrain.Remove(this);
         }
     }
 }
