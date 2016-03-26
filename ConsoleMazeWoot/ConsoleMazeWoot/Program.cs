@@ -116,7 +116,12 @@ namespace ConsoleMazeWoot
 
 			//Adding player
 			CurrentScene.Terrain.Add(player, player.Position);
+
+            //to insert trophies
+            CurrentScene.Terrain.Add(new TrophyEntity(20), new Vector(3, 3));
 		}
+
+
 
 		#region MazeGen
 
