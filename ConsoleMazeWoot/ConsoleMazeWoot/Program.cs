@@ -12,16 +12,13 @@ namespace ConsoleMazeWoot
 		/// <param name="args"></param>
 		static void Main(string[] args)
 		{
-			//create the player
-			var player = new PlayerEntity();
-			//Set player's initial position
-			player.Position = new Vector(1, 1);
+			Console.Title = "Trilobyte Test Game";
+			Console.WindowHeight = Console.BufferHeight = 36;
 
-			//First create a new scene
-			GenerateNewScene(player);
+			StaticScenes.LoadScenes();
 
 			//Start the game!
-			GameLoop.Begin(CurrentScene);
+			GameLoop.Begin(StaticScenes.MainMenu);
 		}
 
 		/// <summary>
@@ -135,16 +132,7 @@ namespace ConsoleMazeWoot
 
 		public static void Lose()
 		{
-			CurrentScene = new Scene(
-				"NewScene",
-				new DictionaryTerrainManager(' ', new Vector(32, 33)),
-				new Camera(new Vector(0, 0), new Vector(32, 33)));
-
-			WriteString("You lose.", new Vector(1, 1), CurrentScene);
-			//WriteString("Score: " + Score, new Vector(1, 2), CurrentScene);
-			//WriteString("Level: " + Level, new Vector(1, 3), CurrentScene);
-
-			GameLoop.NavigateScene(CurrentScene);
+			GameLoop.NavigateScene(StaticScenes.GameOverMenu);
 		}
 
 		#region MazeGen

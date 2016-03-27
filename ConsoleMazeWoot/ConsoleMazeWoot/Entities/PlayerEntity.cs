@@ -30,6 +30,22 @@ namespace ConsoleMazeWoot
 				case ConsoleKey.D:
 					ParentScene.Terrain.Move(this, new Vector(Position.X + 1, Position.Y));
 					break;
+
+				case ConsoleKey.UpArrow:
+					ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y - 1));
+					break;
+
+				case ConsoleKey.DownArrow:
+					ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y + 1));
+					break;
+
+				case ConsoleKey.LeftArrow:
+					ParentScene.Terrain.Move(this, new Vector(Position.X - 1, Position.Y));
+					break;
+
+				case ConsoleKey.RightArrow:
+					ParentScene.Terrain.Move(this, new Vector(Position.X + 1, Position.Y));
+					break;
 			}
 
 			var span = DateTime.Now.Subtract(Program.StartTime);

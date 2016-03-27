@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CharEntity.cs" />
+    <Compile Include="Entities\SelectorEntity.cs" />
     <Compile Include="Entities\TrophyEntity.cs" />
     <Compile Include="Entities\EndEntity.cs" />
     <Compile Include="Entities\PlayerEntity.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Entities\WallEntity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticScenes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
