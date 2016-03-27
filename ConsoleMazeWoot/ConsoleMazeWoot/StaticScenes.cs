@@ -11,8 +11,13 @@ namespace ConsoleMazeWoot
 		public static Scene CreditsMenu { get; set; }
 
 		public static Scene GameOverMenu { get; set; }
+
 		public static Scene PlayerIconMenu { get; set; }
 		static SelectorEntity PlayerIconMenuSelector { get; set; }
+
+		public static Scene DescriptionMenu { get; set; }
+
+		static char playerChar = (char)1;
 
 		public static void LoadScenes()
 		{
@@ -62,10 +67,6 @@ namespace ConsoleMazeWoot
 
 			Program.WriteString("GAME OVER.", new Vector(1, 1), GameOverMenu);
 
-			Program.WriteString("LEVEL " + Program.Level, new Vector(1, 3), GameOverMenu);
-			Program.WriteString("POINTS " + Program.Level, new Vector(1, 4), GameOverMenu);
-			Program.WriteString("HP " + Program.Level, new Vector(1, 5), GameOverMenu);
-
 			Program.WriteString("MAIN MENU", new Vector(2, 7), GameOverMenu);
 
 			var GameOverSelector = new SelectorEntity(new Vector(7, 7), SelectorMode.Vertical);
@@ -96,14 +97,51 @@ namespace ConsoleMazeWoot
 			PlayerIconMenu.Terrain.Add(PlayerIconMenuSelector, new Vector(1, 4));
 			#endregion
 
+			#region DescriptionMenu
+			DescriptionMenu = new Scene("DescriptionMenu",
+				new DictionaryTerrainManager(' ', new Vector(32, 33)),
+				new Camera(new Vector(0, 0), new Vector(32, 33)));
+
+			Program.WriteString("MANY YEARS AGO YOUR VILLAGE WAS", new Vector(1, 1), DescriptionMenu);
+			Program.WriteString("RAIDED BY SAVAGES.", new Vector(1, 2), DescriptionMenu);
+
+			Program.WriteString("YOU HAVE BEEN WANDERING AIMLESLY", new Vector(1, 4), DescriptionMenu);
+			Program.WriteString("SINCE THAT DAY.", new Vector(1, 5), DescriptionMenu);
+
+			Program.WriteString("YOU HAVE SEEN MANY THINGS", new Vector(1, 7), DescriptionMenu);
+			Program.WriteString("IN YOUR TRAVELS.", new Vector(1, 8), DescriptionMenu);
+
+			Program.WriteString("BUT NOTHING LIKE WHAT YOU SEE", new Vector(1, 10), DescriptionMenu);
+			Program.WriteString("BEFORE YOU TODAY.", new Vector(1, 11), DescriptionMenu);
+
+			Program.WriteString("YOU LIKE COINS        " + (char)248, new Vector(1, 13), DescriptionMenu);
+			Program.WriteString("YOU NEED POTIONS      " + (char)127, new Vector(1, 14), DescriptionMenu);
+			Program.WriteString("YOU LOVE AMULETS      " + (char)15, new Vector(1, 15), DescriptionMenu);
+			Program.WriteString("YOU HATE OBSTRUCTIONS ■", new Vector(1, 16), DescriptionMenu);
+
+			Program.WriteString("WELCOME TO THE CONSOLE MAZE.", new Vector(2, 18), DescriptionMenu);
+
+			var DescriptionMenuSelector = new SelectorEntity(new Vector(18, 18), SelectorMode.Vertical);
+			DescriptionMenuSelector.OnUpdate += DescriptionMenuSelector_OnUpdate;
+
+			DescriptionMenu.Terrain.Add(DescriptionMenuSelector, new Vector(1, 18));
+			#endregion
+		}
+
+		private static void DescriptionMenuSelector_OnUpdate(UpdateEventArgs e)
+		{
+			Program.Score = 0;
+			Program.Level = 0;
+			Program.Health = 5;
+
+			Program.GenerateNewScene(new PlayerEntity(playerChar) { Position = new Vector(1, 1) });
+			GameLoop.NavigateScene(Program.CurrentScene);
 		}
 
 		private static void PlayerIconMenuSelector_OnUpdate(UpdateEventArgs e)
 		{
 			if (e.Key == ConsoleKey.Enter)
 			{
-				char playerChar = (char)1;
-
 				switch (PlayerIconMenuSelector.Position.X)
 				{
 					case 1:
@@ -139,12 +177,7 @@ namespace ConsoleMazeWoot
 						break;
 				}
 
-				Program.Score = 0;
-				Program.Level = 0;
-				Program.Health = 5;
-
-				Program.GenerateNewScene(new PlayerEntity(playerChar) { Position = new Vector(1, 1) });
-				GameLoop.NavigateScene(Program.CurrentScene);
+				GameLoop.NavigateScene(DescriptionMenu);
 			}
 		}
 

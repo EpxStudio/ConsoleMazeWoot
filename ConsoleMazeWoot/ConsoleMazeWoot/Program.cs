@@ -12,8 +12,11 @@ namespace ConsoleMazeWoot
 		/// <param name="args"></param>
 		static void Main(string[] args)
 		{
-			Console.Title = "Trilobyte Test Game";
+			Console.Title = "Console Maze";
 			Console.WindowHeight = Console.BufferHeight = 36;
+
+			Score = Level = 0;
+			Health = 5;
 
 			StaticScenes.LoadScenes();
 
@@ -26,11 +29,11 @@ namespace ConsoleMazeWoot
 		/// </summary>
 		public static Scene CurrentScene { get; private set; }
 
-		public static int Score = 0;
+		public static int Score { get; set; }
 
-		public static int Level = 0;
+		public static int Level { get; set; }
 
-		public static int Health = 5;
+		public static int Health { get; set; }
 
 		public static DateTime StartTime { get; set; }
 
@@ -132,7 +135,7 @@ namespace ConsoleMazeWoot
 
 				if (trophyType <= 70)
 				{ //Add a coin
-					var coinAmt = R.Next(20) * R.Next(Level);
+					var coinAmt = R.Next(5,20) * R.Next(1, Level);
 					CurrentScene.Terrain.Add(new TrophyEntity((char)248, coinAmt, 0), new Vector(trophyX, trophyY));
 				}
 				else if (trophyType <= 93)
@@ -143,7 +146,7 @@ namespace ConsoleMazeWoot
 				}
 				else
 				{ //Add an amulet
-					var coinAmt = R.Next(20) * R.Next(Level);
+					var coinAmt = R.Next(5,20) * R.Next(1, Level);
 					var hpDiff = 5 - Health;
 					var potionAmt = hpDiff <= 0 ? 1 : R.Next(1, hpDiff);
 					CurrentScene.Terrain.Add(new TrophyEntity((char)15, coinAmt, potionAmt), new Vector(trophyX, trophyY));
@@ -157,6 +160,13 @@ namespace ConsoleMazeWoot
 
 		public static void Lose()
 		{
+			if (Health != 0) WriteString("YOUR TIME RAN OUT.", new Vector(1, 2), StaticScenes.GameOverMenu);
+			else WriteString("YOU DIED.", new Vector(1, 2), StaticScenes.GameOverMenu);
+
+			WriteString("LEVEL " + Level, new Vector(1, 4), StaticScenes.GameOverMenu);
+			WriteString("POINTS " + Score, new Vector(1, 5), StaticScenes.GameOverMenu);
+			if (Health != 0) WriteString("HP " + Health, new Vector(1, 6), StaticScenes.GameOverMenu);
+
 			GameLoop.NavigateScene(StaticScenes.GameOverMenu);
 		}
 
