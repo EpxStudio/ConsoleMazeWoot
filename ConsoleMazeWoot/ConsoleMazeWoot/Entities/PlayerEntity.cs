@@ -7,7 +7,7 @@ namespace ConsoleMazeWoot
 	{
 		public PlayerEntity()
 		{
-			Display = 'O';
+			Display = (char)1;
 			OnUpdate += PlayerEntity_OnUpdate;
 		}
 

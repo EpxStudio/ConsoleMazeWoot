@@ -63,6 +63,8 @@ namespace ConsoleMazeWoot
 				new DictionaryTerrainManager(' ', new Vector(32, 33)),
 				new Camera(new Vector(0, 0), new Vector(32, 33)));
 
+			Level++;
+
 			//Check where the player is
 			var playerPos = "";
 			if (player.Position.X == 1 && player.Position.Y == 1) playerPos = "top";
@@ -122,7 +124,30 @@ namespace ConsoleMazeWoot
 			Random R = new Random();
 			for (int i = 0; i < 3; i++)
 			{
-				CurrentScene.Terrain.Add(new TrophyEntity(20), new Vector((R.Next(15) * 2) + 1, (R.Next(15) * 2) + 1));
+				var trophyX = (R.Next(15) * 2) + 1;
+				var trophyY = (R.Next(15) * 2) + 1;
+
+				var able = 65 + (Level * 5);
+				var trophyType = R.Next(100 < able ? 100 : able);
+
+				if (trophyType <= 70)
+				{ //Add a coin
+					var coinAmt = R.Next(20) * R.Next(Level);
+					CurrentScene.Terrain.Add(new TrophyEntity((char)248, coinAmt, 0), new Vector(trophyX, trophyY));
+				}
+				else if (trophyType <= 93)
+				{ //Add a potion
+					var hpDiff = 5 - Health;
+					var potionAmt = hpDiff <= 0 ? 1 : R.Next(1, hpDiff);
+					CurrentScene.Terrain.Add(new TrophyEntity((char)127, 0, potionAmt), new Vector(trophyX, trophyY));
+				}
+				else
+				{ //Add an amulet
+					var coinAmt = R.Next(20) * R.Next(Level);
+					var hpDiff = 5 - Health;
+					var potionAmt = hpDiff <= 0 ? 1 : R.Next(1, hpDiff);
+					CurrentScene.Terrain.Add(new TrophyEntity((char)15, coinAmt, potionAmt), new Vector(trophyX, trophyY));
+				}
 			}
 
 			//Adding player

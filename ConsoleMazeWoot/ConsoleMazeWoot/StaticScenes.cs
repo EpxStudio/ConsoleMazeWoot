@@ -62,12 +62,16 @@ namespace ConsoleMazeWoot
 
 			Program.WriteString("GAME OVER.", new Vector(1, 1), GameOverMenu);
 
-			Program.WriteString("MAIN MENU", new Vector(2, 3), GameOverMenu);
+			Program.WriteString("LEVEL " + Program.Level, new Vector(1, 3), GameOverMenu);
+			Program.WriteString("POINTS " + Program.Level, new Vector(1, 4), GameOverMenu);
+			Program.WriteString("HP " + Program.Level, new Vector(1, 5), GameOverMenu);
 
-			var GameOverSelector = new SelectorEntity(3, 3);
+			Program.WriteString("MAIN MENU", new Vector(2, 7), GameOverMenu);
+
+			var GameOverSelector = new SelectorEntity(7, 7);
 			GameOverSelector.OnUpdate += ReturnToMain_OnUpdate;
 
-			GameOverMenu.Terrain.Add(GameOverSelector, new Vector(1, 3));
+			GameOverMenu.Terrain.Add(GameOverSelector, new Vector(1, 7));
 			#endregion
 		}
 

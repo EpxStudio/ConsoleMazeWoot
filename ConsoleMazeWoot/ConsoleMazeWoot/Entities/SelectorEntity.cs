@@ -31,6 +31,16 @@ namespace ConsoleMazeWoot
 					if (Position.Y < Bottom)
 						ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y + 1));
 					break;
+
+				case ConsoleKey.UpArrow:
+					if (Position.Y > Top)
+						ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y - 1));
+					break;
+
+				case ConsoleKey.DownArrow:
+					if (Position.Y < Bottom)
+						ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y + 1));
+					break;
 			}
 		}
 	}
