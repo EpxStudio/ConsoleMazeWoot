@@ -5,6 +5,10 @@ namespace ConsoleMazeWoot
 {
 	class WallEntity : Entity
 	{
+
+        /// <summary>
+        /// Tracks whether the wall causes the player to lose when they collide with it
+        /// </summary>
 		public bool LoseOnCollide { get; private set; }
 
 		public WallEntity(bool loseOnCollide = false)
