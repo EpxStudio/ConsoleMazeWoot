@@ -47,16 +47,16 @@ namespace ConsoleMazeWoot
 					ParentScene.Terrain.Move(this, new Vector(Position.X + 1, Position.Y));
 					break;
 			}
-
+			
 			var span = DateTime.Now.Subtract(Program.StartTime);
-			if (DateTime.Now.Subtract(Program.StartTime) > TimeSpan.FromMinutes(1))
+			if (DateTime.Now.Subtract(Program.StartTime) > Program.MaxTime)
 			{
 				Program.Lose();
 			}
 
 			var toWrite = "";
 
-			toWrite += String.Format("{0}", span.Minutes) + ":" + String.Format("{00}", span.Seconds) + "|";
+			toWrite += String.Format("{0}", Program.MaxTime.Minutes - span.Minutes) + ":" + String.Format("{00}", Program.MaxTime.Seconds - span.Seconds) + "|";
 			toWrite += "PTS " + String.Format("{0000}", Program.Score) + "|";
 			toWrite += "LVL " + String.Format("{00}", Program.Level) + "|";
 			toWrite += "HP " + Program.Health;

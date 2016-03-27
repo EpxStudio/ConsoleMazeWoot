@@ -17,6 +17,8 @@ namespace ConsoleMazeWoot
 
 		public static Scene DescriptionMenu { get; set; }
 
+		public static Scene WinMenu { get; set; }
+
 		public static char PlayerChar { get; private set; }
 
 		public static void LoadScenes()
@@ -67,12 +69,12 @@ namespace ConsoleMazeWoot
 
 			Program.WriteString("GAME OVER.", new Vector(1, 1), GameOverMenu);
 
-			Program.WriteString("MAIN MENU", new Vector(2, 7), GameOverMenu);
+			Program.WriteString("MAIN MENU", new Vector(2, 8), GameOverMenu);
 
-			var GameOverSelector = new SelectorEntity(new Vector(7, 7), SelectorMode.Vertical);
+			var GameOverSelector = new SelectorEntity(new Vector(8, 8), SelectorMode.Vertical);
 			GameOverSelector.OnUpdate += ReturnToMain_OnUpdate;
 
-			GameOverMenu.Terrain.Add(GameOverSelector, new Vector(1, 7));
+			GameOverMenu.Terrain.Add(GameOverSelector, new Vector(1, 8));
 			#endregion
 
 			#region PlayerIconMenu
@@ -125,6 +127,21 @@ namespace ConsoleMazeWoot
 			DescriptionMenuSelector.OnUpdate += DescriptionMenuSelector_OnUpdate;
 
 			DescriptionMenu.Terrain.Add(DescriptionMenuSelector, new Vector(1, 18));
+			#endregion
+
+			#region WinMenu
+			WinMenu = new Scene("GameOver",
+				new DictionaryTerrainManager(' ', new Vector(32, 33)),
+				new Camera(new Vector(0, 0), new Vector(32, 33)));
+
+			Program.WriteString("CONGRATULATIONS, YOU WIN!", new Vector(1, 1), WinMenu);
+
+			Program.WriteString("MAIN MENU", new Vector(2, 7), WinMenu);
+
+			var WinMenuSelector = new SelectorEntity(new Vector(7, 7), SelectorMode.Vertical);
+			WinMenuSelector.OnUpdate += ReturnToMain_OnUpdate;
+
+			WinMenu.Terrain.Add(WinMenuSelector, new Vector(1, 7));
 			#endregion
 		}
 

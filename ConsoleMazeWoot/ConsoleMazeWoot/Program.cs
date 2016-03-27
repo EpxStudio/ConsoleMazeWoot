@@ -18,6 +18,8 @@ namespace ConsoleMazeWoot
 			Score = Level = 0;
 			Health = 5;
 
+			MaxTime = new TimeSpan(0, 2, 5);
+
 			StaticScenes.LoadScenes();
 
 			//Start the game!
@@ -37,6 +39,8 @@ namespace ConsoleMazeWoot
 
 		public static DateTime StartTime { get; set; }
 
+		public static TimeSpan MaxTime { get; set; }
+
 		//creates new scene which holds all properties of old scene along with 
 		//string A which is displayed beginnning at Vector (x,y) each char in string A
 		//becomes an entity which is then placed in x, x+1 , x+2 , ... x+A.length()...
@@ -55,22 +59,20 @@ namespace ConsoleMazeWoot
 			}
 		}
 
-        //make counter to keep track of number of scenes generated
-        static int sceneCounter = 0;
 		/// <summary>
 		/// Makes a new scene with a new maze
 		/// </summary>
-        
 		public static void GenerateNewScene(PlayerEntity player)
 		{
-            sceneCounter++;
+			Level++;
+
 			//Create a new, blank scene of size 32,32
 			CurrentScene = new Scene(
-				"NewScene" + sceneCounter,
+				"NewScene" + Level,
 				new DictionaryTerrainManager(' ', new Vector(32, 33)),
 				new Camera(new Vector(0, 0), new Vector(32, 33)));
 
-			Level++;
+			MaxTime = MaxTime.Subtract(new TimeSpan(0, 0, 5));
 
 			//Check where the player is
 			var playerPos = "";
@@ -172,6 +174,15 @@ namespace ConsoleMazeWoot
 			if (Health != 0) WriteString("HP " + Health, new Vector(1, 6), StaticScenes.GameOverMenu);
 
 			GameLoop.NavigateScene(StaticScenes.GameOverMenu);
+		}
+
+		public static void Win()
+		{
+			WriteString("LEVEL " + Level, new Vector(1, 3), StaticScenes.WinMenu);
+			WriteString("POINTS " + Score, new Vector(1, 4), StaticScenes.WinMenu);
+			WriteString("HP " + Health, new Vector(1, 5), StaticScenes.WinMenu);
+
+			GameLoop.NavigateScene(StaticScenes.WinMenu);
 		}
 
 		#region MazeGen

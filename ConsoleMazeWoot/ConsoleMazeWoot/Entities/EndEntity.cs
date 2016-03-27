@@ -15,8 +15,15 @@ namespace ConsoleMazeWoot
 		{
 			if (e.Caller.GetType() == typeof(PlayerEntity))
 			{
-				Program.GenerateNewScene(new PlayerEntity(StaticScenes.PlayerChar) { Position = e.Caller.Position });
-				GameLoop.NavigateScene(Program.CurrentScene);
+				if (Program.Level < 20)
+				{
+					Program.GenerateNewScene(new PlayerEntity(StaticScenes.PlayerChar) { Position = e.Caller.Position });
+					GameLoop.NavigateScene(Program.CurrentScene);
+				}
+				else
+				{
+					Program.Win();
+				}
 			}
 
 			e.Cancel = true;
