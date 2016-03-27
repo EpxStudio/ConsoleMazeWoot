@@ -55,14 +55,18 @@ namespace ConsoleMazeWoot
 			}
 		}
 
+        //make counter to keep track of number of scenes generated
+        static int sceneCounter = 0;
 		/// <summary>
 		/// Makes a new scene with a new maze
 		/// </summary>
+        
 		public static void GenerateNewScene(PlayerEntity player)
 		{
+            sceneCounter++;
 			//Create a new, blank scene of size 32,32
 			CurrentScene = new Scene(
-				"NewScene",
+				"NewScene" + sceneCounter,
 				new DictionaryTerrainManager(' ', new Vector(32, 33)),
 				new Camera(new Vector(0, 0), new Vector(32, 33)));
 

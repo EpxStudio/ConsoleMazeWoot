@@ -17,7 +17,17 @@ namespace ConsoleMazeWoot
 			{
 				Program.GenerateNewScene(e.Caller as PlayerEntity);
 				GameLoop.NavigateScene(Program.CurrentScene);
-				ParentScene.Terrain.Remove(e.Caller);
+                try
+                {
+                    //deleted playerEntity from previous board
+                    //garbage collection, this instance of board should never be used again
+                    ParentScene.Terrain.Remove(e.Caller);
+
+                }
+                catch(Exception ex)
+                {
+
+                }
 			}
 
 			e.Cancel = true;
