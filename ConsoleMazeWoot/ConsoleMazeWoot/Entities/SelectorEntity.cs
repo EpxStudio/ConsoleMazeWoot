@@ -5,15 +5,19 @@ namespace ConsoleMazeWoot
 {
 	class SelectorEntity : Entity
 	{
-		int Top;
-		int Bottom;
+		int Min;
+		int Max;
+		SelectorMode Mode;
 
-		public SelectorEntity(int top, int bottom)
+		public SelectorEntity(Vector positions, SelectorMode mode)
 		{
-			Display = '>';
+			if (mode == SelectorMode.Horizontal) Display = '^';
+			else Display = '>';
 
-			Top = top;
-			Bottom = bottom;
+			Mode = mode;
+
+			Min = positions.X;
+			Max = positions.Y;
 
 			OnUpdate += SelectorEntity_OnUpdate;
 		}
@@ -23,25 +27,51 @@ namespace ConsoleMazeWoot
 			switch (e.Key)
 			{
 				case ConsoleKey.W:
-					if (Position.Y > Top)
+					if (Position.Y > Min && Mode == SelectorMode.Vertical)
 						ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y - 1));
 					break;
 
 				case ConsoleKey.S:
-					if (Position.Y < Bottom)
+					if (Position.Y < Max && Mode == SelectorMode.Vertical)
 						ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y + 1));
 					break;
 
 				case ConsoleKey.UpArrow:
-					if (Position.Y > Top)
+					if (Position.Y > Min && Mode == SelectorMode.Vertical)
 						ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y - 1));
 					break;
 
 				case ConsoleKey.DownArrow:
-					if (Position.Y < Bottom)
+					if (Position.Y < Max && Mode == SelectorMode.Vertical)
 						ParentScene.Terrain.Move(this, new Vector(Position.X, Position.Y + 1));
+					break;
+
+				case ConsoleKey.A:
+					if (Position.X > Min && Mode == SelectorMode.Horizontal)
+						ParentScene.Terrain.Move(this, new Vector(Position.X - 1, Position.Y));
+					break;
+
+				case ConsoleKey.D:
+					if (Position.X < Max && Mode == SelectorMode.Horizontal)
+						ParentScene.Terrain.Move(this, new Vector(Position.X + 1, Position.Y));
+					break;
+
+				case ConsoleKey.LeftArrow:
+					if (Position.X > Min && Mode == SelectorMode.Horizontal)
+						ParentScene.Terrain.Move(this, new Vector(Position.X - 1, Position.Y));
+					break;
+
+				case ConsoleKey.RightArrow:
+					if (Position.X < Max && Mode == SelectorMode.Horizontal)
+						ParentScene.Terrain.Move(this, new Vector(Position.X + 1, Position.Y));
 					break;
 			}
 		}
+	}
+
+	enum SelectorMode
+	{
+		Horizontal,
+		Vertical
 	}
 }

@@ -11,6 +11,8 @@ namespace ConsoleMazeWoot
 		public static Scene CreditsMenu { get; set; }
 
 		public static Scene GameOverMenu { get; set; }
+		public static Scene PlayerIconMenu { get; set; }
+		static SelectorEntity PlayerIconMenuSelector { get; set; }
 
 		public static void LoadScenes()
 		{
@@ -24,12 +26,10 @@ namespace ConsoleMazeWoot
 			Program.WriteString("CREDITS", new Vector(2, 4), MainMenu);
 			Program.WriteString("QUIT", new Vector(2, 5), MainMenu);
 
-			MainMenuSelector = new SelectorEntity(3, 5);
+			MainMenuSelector = new SelectorEntity(new Vector(3, 5), SelectorMode.Vertical);
 			MainMenuSelector.OnUpdate += MainMenuSelector_OnUpdate;
 
 			MainMenu.Terrain.Add(MainMenuSelector, new Vector(1, 3));
-
-			//MainMenu.Update(new UpdateEventArgs());
 			#endregion
 
 			#region CreditsMenu
@@ -49,7 +49,7 @@ namespace ConsoleMazeWoot
 
 			Program.WriteString("MAIN MENU", new Vector(2, 10), CreditsMenu);
 
-			var CreditsMenuSelector = new SelectorEntity(10, 10);
+			var CreditsMenuSelector = new SelectorEntity(new Vector(10, 10), SelectorMode.Vertical);
 			CreditsMenuSelector.OnUpdate += ReturnToMain_OnUpdate;
 
 			CreditsMenu.Terrain.Add(CreditsMenuSelector, new Vector(1, 10));
@@ -68,11 +68,84 @@ namespace ConsoleMazeWoot
 
 			Program.WriteString("MAIN MENU", new Vector(2, 7), GameOverMenu);
 
-			var GameOverSelector = new SelectorEntity(7, 7);
+			var GameOverSelector = new SelectorEntity(new Vector(7, 7), SelectorMode.Vertical);
 			GameOverSelector.OnUpdate += ReturnToMain_OnUpdate;
 
 			GameOverMenu.Terrain.Add(GameOverSelector, new Vector(1, 7));
 			#endregion
+
+			#region PlayerIconMenu
+			PlayerIconMenu = new Scene("PlayerIconMenu",
+				new DictionaryTerrainManager(' ', new Vector(32, 33)),
+				new Camera(new Vector(0, 0), new Vector(32, 33)));
+
+			Program.WriteString("CHOOSE YOUR CHARACTER", new Vector(1, 1), PlayerIconMenu);
+
+			Program.WriteString(((char)1).ToString(), new Vector(1, 3), PlayerIconMenu);
+			Program.WriteString(((char)2).ToString(), new Vector(2, 3), PlayerIconMenu);
+			Program.WriteString(((char)3).ToString(), new Vector(3, 3), PlayerIconMenu);
+			Program.WriteString(((char)4).ToString(), new Vector(4, 3), PlayerIconMenu);
+			Program.WriteString(((char)5).ToString(), new Vector(5, 3), PlayerIconMenu);
+			Program.WriteString(((char)6).ToString(), new Vector(6, 3), PlayerIconMenu);
+			Program.WriteString(((char)11).ToString(), new Vector(7, 3), PlayerIconMenu);
+			Program.WriteString(((char)12).ToString(), new Vector(8, 3), PlayerIconMenu);
+
+			PlayerIconMenuSelector = new SelectorEntity(new Vector(1, 8), SelectorMode.Horizontal);
+			PlayerIconMenuSelector.OnUpdate += PlayerIconMenuSelector_OnUpdate;
+
+			PlayerIconMenu.Terrain.Add(PlayerIconMenuSelector, new Vector(1, 4));
+			#endregion
+
+		}
+
+		private static void PlayerIconMenuSelector_OnUpdate(UpdateEventArgs e)
+		{
+			if (e.Key == ConsoleKey.Enter)
+			{
+				char playerChar = (char)1;
+
+				switch (PlayerIconMenuSelector.Position.X)
+				{
+					case 1:
+						playerChar = (char)1;
+						break;
+
+					case 2:
+						playerChar = (char)2;
+						break;
+
+					case 3:
+						playerChar = (char)3;
+						break;
+
+					case 4:
+						playerChar = (char)4;
+						break;
+
+					case 5:
+						playerChar = (char)5;
+						break;
+
+					case 6:
+						playerChar = (char)6;
+						break;
+
+					case 7:
+						playerChar = (char)11;
+						break;
+
+					case 8:
+						playerChar = (char)12;
+						break;
+				}
+
+				Program.Score = 0;
+				Program.Level = 0;
+				Program.Health = 5;
+
+				Program.GenerateNewScene(new PlayerEntity(playerChar) { Position = new Vector(1, 1) });
+				GameLoop.NavigateScene(Program.CurrentScene);
+			}
 		}
 
 		private static void ReturnToMain_OnUpdate(UpdateEventArgs e)
@@ -90,12 +163,7 @@ namespace ConsoleMazeWoot
 				switch (MainMenuSelector.Position.Y)
 				{
 					case 3: //New Game
-						Program.Score = 0;
-						Program.Level = 0;
-						Program.Health = 5;
-
-						Program.GenerateNewScene(new PlayerEntity() { Position = new Vector(1, 1) });
-						GameLoop.NavigateScene(Program.CurrentScene);
+						GameLoop.NavigateScene(PlayerIconMenu);
 						break;
 
 					case 4: //Credits
