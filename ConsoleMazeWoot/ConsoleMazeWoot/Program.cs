@@ -144,7 +144,7 @@ namespace ConsoleMazeWoot
 					var coinAmt = R.Next(5,20) * R.Next(1, Level);
 					CurrentScene.Terrain.Add(new TrophyEntity((char)248, coinAmt, 0), new Vector(trophyX, trophyY));
 				}
-				else if (trophyType <= 93)
+				else if (trophyType <= 90)
 				{ //Add a potion
 					var hpDiff = 5 - Health;
 					var potionAmt = hpDiff <= 0 ? 1 : R.Next(1, hpDiff);

@@ -48,20 +48,16 @@ namespace ConsoleMazeWoot
 					break;
 			}
 			
-			var span = DateTime.Now.Subtract(Program.StartTime);
+			var span = Program.MaxTime.Subtract(DateTime.Now.Subtract(Program.StartTime));
 			if (DateTime.Now.Subtract(Program.StartTime) > Program.MaxTime)
 			{
 				Program.Lose();
 			}
 
-			var toWrite = "";
-
-			toWrite += String.Format("{0}", Program.MaxTime.Minutes - span.Minutes) + ":" + String.Format("{00}", Program.MaxTime.Seconds - span.Seconds) + "|";
-			toWrite += "PTS " + String.Format("{0000}", Program.Score) + "|";
-			toWrite += "LVL " + String.Format("{00}", Program.Level) + "|";
-			toWrite += "HP " + Program.Health;
-
-			Program.WriteString(toWrite, new Vector(0, 33), Program.CurrentScene);
+			Program.WriteString(String.Format("{0}", span.Minutes) + ":" + String.Format("{00}", span.Seconds), new Vector(0,33), Program.CurrentScene);
+			Program.WriteString("|" + "PTS " + String.Format("{0000}", Program.Score), new Vector(4, 33), Program.CurrentScene);
+			Program.WriteString("|" + "LVL " + String.Format("{00}", Program.Level), new Vector(13, 33), Program.CurrentScene);
+			Program.WriteString("|" + "HP " + Program.Health, new Vector(21, 33), Program.CurrentScene);
 		}
 	}
 }
