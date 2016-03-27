@@ -17,7 +17,7 @@ namespace ConsoleMazeWoot
 
 		public static Scene DescriptionMenu { get; set; }
 
-		static char playerChar = (char)1;
+		public static char PlayerChar { get; private set; }
 
 		public static void LoadScenes()
 		{
@@ -134,7 +134,7 @@ namespace ConsoleMazeWoot
 			Program.Level = 0;
 			Program.Health = 5;
 
-			Program.GenerateNewScene(new PlayerEntity(playerChar) { Position = new Vector(1, 1) });
+			Program.GenerateNewScene(new PlayerEntity(PlayerChar) { Position = new Vector(1, 1) });
 			GameLoop.NavigateScene(Program.CurrentScene);
 		}
 
@@ -145,35 +145,35 @@ namespace ConsoleMazeWoot
 				switch (PlayerIconMenuSelector.Position.X)
 				{
 					case 1:
-						playerChar = (char)1;
+						PlayerChar = (char)1;
 						break;
 
 					case 2:
-						playerChar = (char)2;
+						PlayerChar = (char)2;
 						break;
 
 					case 3:
-						playerChar = (char)3;
+						PlayerChar = (char)3;
 						break;
 
 					case 4:
-						playerChar = (char)4;
+						PlayerChar = (char)4;
 						break;
 
 					case 5:
-						playerChar = (char)5;
+						PlayerChar = (char)5;
 						break;
 
 					case 6:
-						playerChar = (char)6;
+						PlayerChar = (char)6;
 						break;
 
 					case 7:
-						playerChar = (char)11;
+						PlayerChar = (char)11;
 						break;
 
 					case 8:
-						playerChar = (char)12;
+						PlayerChar = (char)12;
 						break;
 				}
 

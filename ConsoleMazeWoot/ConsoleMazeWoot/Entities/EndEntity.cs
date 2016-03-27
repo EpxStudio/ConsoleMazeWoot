@@ -15,19 +15,8 @@ namespace ConsoleMazeWoot
 		{
 			if (e.Caller.GetType() == typeof(PlayerEntity))
 			{
-				Program.GenerateNewScene(e.Caller as PlayerEntity);
+				Program.GenerateNewScene(new PlayerEntity(StaticScenes.PlayerChar) { Position = e.Caller.Position });
 				GameLoop.NavigateScene(Program.CurrentScene);
-                try
-                {
-                    //deleted playerEntity from previous board
-                    //garbage collection, this instance of board should never be used again
-                    ParentScene.Terrain.Remove(e.Caller);
-
-                }
-                catch(Exception ex)
-                {
-
-                }
 			}
 
 			e.Cancel = true;
