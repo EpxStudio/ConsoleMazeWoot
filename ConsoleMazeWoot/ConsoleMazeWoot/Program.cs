@@ -179,9 +179,9 @@ namespace ConsoleMazeWoot
 
 		public static void Win()
 		{
-			WriteString("LEVEL " + Level, new Vector(1, 3), StaticScenes.WinMenu);
-			WriteString("POINTS " + Score, new Vector(1, 4), StaticScenes.WinMenu);
-			WriteString("HP " + Health, new Vector(1, 5), StaticScenes.WinMenu);
+			WriteString("LEVEL " + Level, new Vector(1, 10), StaticScenes.WinMenu);
+			WriteString("POINTS " + Score, new Vector(1, 11), StaticScenes.WinMenu);
+			WriteString("HP " + Health, new Vector(1, 12), StaticScenes.WinMenu);
 
 			GameLoop.NavigateScene(StaticScenes.WinMenu);
 		}

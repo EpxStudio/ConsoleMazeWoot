@@ -134,14 +134,19 @@ namespace ConsoleMazeWoot
 				new DictionaryTerrainManager(' ', new Vector(32, 33)),
 				new Camera(new Vector(0, 0), new Vector(32, 33)));
 
-			Program.WriteString("CONGRATULATIONS, YOU WIN!", new Vector(1, 1), WinMenu);
+			Program.WriteString("AFTER MANY DAYS YOU LEAVE", new Vector(1, 1), WinMenu);
+			Program.WriteString("THIS TERRIBLE PLACE.", new Vector(1, 2), WinMenu);
+			Program.WriteString("THE MANY TRIALS AND HARDSHIPS", new Vector(1, 4), WinMenu);
+			Program.WriteString("NOW IN YOUR PAST.", new Vector(1, 5), WinMenu);
+			Program.WriteString("YOU HAVE CONQUERED", new Vector(1, 7), WinMenu);
+			Program.WriteString("THE CONSOLE MAZE.", new Vector(1, 8), WinMenu);
 
-			Program.WriteString("MAIN MENU", new Vector(2, 7), WinMenu);
+			Program.WriteString("MAIN MENU", new Vector(2, 14), WinMenu);
 
-			var WinMenuSelector = new SelectorEntity(new Vector(7, 7), SelectorMode.Vertical);
+			var WinMenuSelector = new SelectorEntity(new Vector(14, 14), SelectorMode.Vertical);
 			WinMenuSelector.OnUpdate += ReturnToMain_OnUpdate;
 
-			WinMenu.Terrain.Add(WinMenuSelector, new Vector(1, 7));
+			WinMenu.Terrain.Add(WinMenuSelector, new Vector(1, 14));
 			#endregion
 		}
 
