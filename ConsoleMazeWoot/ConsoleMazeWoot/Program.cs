@@ -15,9 +15,6 @@ namespace ConsoleMazeWoot
 			Console.Title = "Console Maze";
 			Console.WindowHeight = Console.BufferHeight = 36;
 
-			Score = Level = 0;
-			Health = 5;
-
 			MaxTime = new TimeSpan(0, 2, 5);
 
 			StaticScenes.LoadScenes();
@@ -36,6 +33,8 @@ namespace ConsoleMazeWoot
 		public static int Level { get; set; }
 
 		public static int Health { get; set; }
+
+		public static bool FlashRed = false;
 
 		public static DateTime StartTime { get; set; }
 
@@ -131,7 +130,9 @@ namespace ConsoleMazeWoot
 			CurrentScene.Terrain.Add(new WallEntity(true), new Vector(32, 32));
 
 			Random R = new Random();
-			for (int i = 0; i < 3; i++)
+
+			var totalTrophies = Level - 10 > 4 ? Level - 10 : 4;
+			for (int i = 0; i < totalTrophies; i++)
 			{
 				var trophyX = (R.Next(15) * 2) + 1;
 				var trophyY = (R.Next(15) * 2) + 1;
