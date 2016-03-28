@@ -23,7 +23,11 @@ namespace ConsoleMazeWoot
 			if (LoseOnCollide && e.Caller.GetType() == typeof(PlayerEntity))
 			{
 				if (Program.Health == 0) Program.Lose();
-				else Program.Health--;
+				else
+				{
+					Program.Health--;
+					Program.FlashRed = true;
+				}
 			}
 
 			e.Cancel = true;

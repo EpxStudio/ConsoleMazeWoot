@@ -58,6 +58,16 @@ namespace ConsoleMazeWoot
 			Program.WriteString("|" + "PTS " + String.Format("{0000}", Program.Score), new Vector(4, 33), Program.CurrentScene);
 			Program.WriteString("|" + "LVL " + String.Format("{00}", Program.Level), new Vector(13, 33), Program.CurrentScene);
 			Program.WriteString("|" + "HP " + Program.Health, new Vector(21, 33), Program.CurrentScene);
+			
+			if (Program.FlashRed)
+			{
+				Console.BackgroundColor = ConsoleColor.DarkRed;
+				Program.FlashRed = false;
+			}
+			else
+			{
+				Console.BackgroundColor = ConsoleColor.Black;
+			}
 		}
 	}
 }
